@@ -49,6 +49,8 @@ public class KitchenService : IKitchenService
             else
             {
                 message.AppendLine($"Order successful for {quantity}x {food.Name}");
+                response.TotalCalories += food.Calories * quantity;
+                response.TotalCookTime += food.CookTime * quantity;
                 // If the required ingredients are available, remove them from the inventory
                 _repository.RemoveIngredients(totalIngredientsNeeded);
             }
@@ -57,6 +59,8 @@ public class KitchenService : IKitchenService
         }
 
         // Continue processing the order...
+        message.AppendLine($"Total Calories: {response.TotalCalories}");
+        message.AppendLine($"Total Cook Time: {response.TotalCookTime}");
         response.Message = message.ToString();
         return response;
     }
